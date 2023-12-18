@@ -17,6 +17,9 @@ function App() {
 
    return (
       <div className="container mx-auto md:w-4/6 border min-h-screen p-12">
+         <h1 className="text-center mb-4 font-semibold text-2xl">
+            Users From Server
+         </h1>
          <Users users={users} />
       </div>
    );
