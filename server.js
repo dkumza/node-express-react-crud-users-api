@@ -63,7 +63,7 @@ app.get("/api/users/:userId", (request, response) => {
 //  DELETE - /api/users/2 - delete user with id
 app.delete("/api/users/:userId", (request, response) => {
    const userId = +request.params.userId;
-   // grazlinti viska iskryrus ta el kurio id yra = userId
+   // grazinti viska iskryrus ta el kurio id yra = userId
    users = users.filter((uObj) => uObj.id !== userId);
    console.log("users ===", users);
    response.json(users);

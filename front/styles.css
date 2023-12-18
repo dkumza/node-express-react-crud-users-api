@@ -29,6 +29,9 @@
    border-radius: 20px;
    font-size: 20px;
    text-align: center;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
 }
 
 .title-1 {
@@ -39,10 +42,18 @@
    border: 1px solid greenyellow;
    background-color: rgb(37, 128, 225);
    color: white;
+   max-width: fit-content;
    padding: 5px 15px;
    border-radius: 20px;
    cursor: pointer;
 }
 .btn-1:hover {
    background-color: rgb(29, 100, 177);
+}
+
+.btn-del {
+   background-color: rgba(238, 15, 15, 0.765);
+}
+.btn-del:hover {
+   background-color: rgb(238, 15, 15);
 }

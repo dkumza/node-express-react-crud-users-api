@@ -4,25 +4,27 @@ GET http://localhost:3000
 GET http://localhost:3000/api/users
 
 ### get all towns
-GET http://localhost:3000/api/users
+GET http://localhost:3000/api/users/town
 
 ### get all drivers
 GET http://localhost:3000/api/users/drivers
 
 ### get Single user
-GET http://localhost:3000/api/users/3
+GET http://localhost:3000/api/users/delete/3
 
-###
+### del Single user
+DELETE http://localhost:3000/api/users/1
 
-GET https://jsonplaceholder.typicode.com/users
 
-### Create post
+# GET https://jsonplaceholder.typicode.com/users
 
-POST https://jsonplaceholder.typicode.com/posts
-Content-Type:  application/json
+# ### Create post
 
-{
-  "userId": 50,
-  "title": "new post",
-  "body": "body of new post"
-}
+# POST https://jsonplaceholder.typicode.com/posts
+# Content-Type:  application/json
+
+# {
+#   "userId": 50,
+#   "title": "new post",
+#   "body": "body of new post"
+# }
