@@ -10,6 +10,15 @@ console.log("front.js file was loaded");
 const USERS_URL = "http://localhost:3000/api/users";
 const USERS_TOWNS = "http://localhost:3000/api/users/town";
 
+function addDeleteEventToButtons() {
+   const delUserBtn = document.querySelectorAll(".btn-del");
+   delUserBtn.forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+         deleteUser(USERS_URL, e.target.id);
+      })
+   );
+}
+
 // parsisiusti vartotojus ir iskonsolinti
 // pakeiciau
 async function getUsers(url) {
@@ -22,12 +31,7 @@ async function getUsers(url) {
          <div id="${user.id}" class="btn-1 btn-del">del</div>
          </div>`;
       });
-      delUserBtn = document.querySelectorAll(".btn-del");
-      delUserBtn.forEach((btn) =>
-         btn.addEventListener("click", (e) => {
-            deleteUser(USERS_URL, e.target.id);
-         })
-      );
+      addDeleteEventToButtons();
    } catch (error) {
       console.warn(error);
    }
@@ -65,12 +69,7 @@ async function deleteUser(url, userId) {
          <div id="${user.id}" class="btn-1 btn-del">del</div>
          </div>`;
       });
-      delUserBtn = document.querySelectorAll(".btn-del");
-      delUserBtn.forEach((btn) =>
-         btn.addEventListener("click", (e) => {
-            deleteUser(USERS_URL, e.target.id);
-         })
-      );
+      addDeleteEventToButtons();
    } catch (error) {
       console.warn(error);
    }
