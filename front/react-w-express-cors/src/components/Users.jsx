@@ -21,7 +21,7 @@ export const Users = ({ users, setUsers }) => {
                <div>Name: {user.name}</div>
                <div>Town: {user.town}</div>
                <button
-                  className="px-4 my-1 border w-fit rounded-full bg-rose-400"
+                  className="px-4 my-1 border-2 w-fit rounded-full hover:bg-rose-400 border-rose-600 bg-green-200"
                   onClick={() => {
                      handleDelete(user.id);
                   }}

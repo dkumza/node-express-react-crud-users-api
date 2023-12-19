@@ -5,7 +5,7 @@ export const UsersTowns = ({ handleTowns, showTowns, towns }) => {
          <h1 className="text-center m-4 font-semibold text-2xl">Users Towns</h1>
          <button
             onClick={handleTowns}
-            className="mb-2 py-2 px-5 border w-fit rounded-full bg-lime-100 hover:bg-lime-300"
+            className="mb-2 py-2 px-5 border border-lime-500 w-fit rounded-full bg-lime-100 hover:bg-lime-300"
          >
             Show Towns
          </button>
