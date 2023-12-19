@@ -4,6 +4,7 @@ import axios from "axios";
 import "./App.css";
 import { Users } from "./components/Users";
 import { UsersTowns } from "./components/UsersTowns";
+import { Input } from "./components/Input";
 
 const USERS_URL = "http://localhost:3000/api/users";
 const USERS_TOWNS = "http://localhost:3000/api/users/town";
@@ -31,15 +32,16 @@ function App() {
 
    return (
       <div className="container mx-auto md:w-4/6 border min-h-screen p-12">
+         <Input />
          <h1 className="text-center mb-4 font-semibold text-2xl">
             Users From Server
          </h1>
          <Users users={users} setUsers={setUsers} />
-         <UsersTowns
+         {/* <UsersTowns
             handleTowns={handleTowns}
             showTowns={showTowns}
             towns={towns}
-         />
+         /> */}
       </div>
    );
 }

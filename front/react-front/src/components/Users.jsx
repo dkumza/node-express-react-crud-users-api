@@ -15,19 +15,24 @@ export const Users = ({ users, setUsers }) => {
       <div className="flex gap-4 flex-wrap items-center justify-center">
          {users.map((user) => (
             <div
-               className="flex flex-col w-56 py-2 px-4 text-center justify-center items-center bg-sky-100 border border-sky-500 rounded-md"
+               className="flex flex-col w-56 py-4 px-6 text-center justify-center items-center bg-sky-100 border border-sky-500 rounded-lg gap-2"
                key={user.id}
             >
                <div>Name: {user.name}</div>
                <div>Town: {user.town}</div>
-               <button
-                  className="px-4 my-1 border-2 w-fit rounded-full hover:bg-rose-400 border-rose-600 bg-green-200"
-                  onClick={() => {
-                     handleDelete(user.id);
-                  }}
-               >
-                  delete
-               </button>
+               {/* {console.log(user)} */}
+               <div className="">Is Driver: {user.isDriver ? "YES" : "NO"}</div>
+               <div className="btn-wrap flex gap-2">
+                  <button
+                     className="btn-del"
+                     onClick={() => {
+                        handleDelete(user.id);
+                     }}
+                  >
+                     Delete
+                  </button>
+                  <button className="btn-del btn-edit">Edit</button>
+               </div>
             </div>
          ))}
       </div>

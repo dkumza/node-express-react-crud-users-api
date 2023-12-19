@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn-del {
+   @apply bg-rose-400 hover:bg-rose-500 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center text-gray-900;
+}
+
+.btn-edit {
+   @apply bg-amber-200 hover:bg-amber-300;
+}
