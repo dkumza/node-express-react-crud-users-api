@@ -3,43 +3,57 @@ import axios from "axios";
 
 import "./App.css";
 import { Users } from "./components/Users";
-import { UsersTowns } from "./components/UsersTowns";
+// import { UsersTowns } from "./components/UsersTowns";
 import { Input } from "./components/Input";
 
 const USERS_URL = "http://localhost:3000/api/users";
-const USERS_TOWNS = "http://localhost:3000/api/users/town";
+// const USERS_TOWNS = "http://localhost:3000/api/users/town";
 
 function App() {
    const [users, setUsers] = useState(null);
-   // const [showTowns, setShowTowns] = useState(false);
-   // const [towns, setTowns] = useState(null);
+   // const [editing, setEditing] = useState(false);
+   const [editingUser, setEditingUser] = useState(null);
 
    useEffect(() => {
-      handleUsers();
+      handleUsersFromServer();
    }, []);
 
-   const handleUsers = () => {
-      axios.get(USERS_URL).then((res) => {
-         setUsers(res.data);
-      });
+   const handleUsersFromServer = () => {
+      axios
+         .get(USERS_URL)
+         .then((res) => {
+            setUsers(res.data);
+         })
+         .catch((error) => {
+            console.warn("Error:", error);
+         });
    };
 
-   // shows users towns on click
-   // const handleTowns = () => {
-   //    setShowTowns((prevState) => !prevState);
-   //    axios.get(USERS_TOWNS).then((res) => {
-   //       // console.log(res.data);
-   //       setTowns(res.data);
-   //    });
-   // };
+   const handleEditUser = (user) => {
+      console.log("EDITING:");
+      console.table(user);
+      // setEditing(true);
+      setEditingUser(user);
+      // setEditing(false);
+   };
 
    return (
       <div className="container mx-auto md:w-4/6 min-h-screen p-12">
-         <Input handleUsers={handleUsers} />
+         <Input
+            handleUsersFromServer={handleUsersFromServer}
+            // editing={editing}
+            // setEditing={setEditing}
+            editingUser={editingUser}
+            setEditingUser={setEditingUser}
+         />
          <h1 className="text-center mb-4 font-semibold text-2xl">
             Users From Server
          </h1>
-         <Users users={users} setUsers={setUsers} />
+         <Users
+            users={users}
+            setUsers={setUsers}
+            handleEditUser={handleEditUser}
+         />
          {/* <UsersTowns
             handleTowns={handleTowns}
             showTowns={showTowns}
@@ -50,3 +64,13 @@ function App() {
 }
 
 export default App;
+
+// shows users towns on click
+// const [showTowns, setShowTowns] = useState(false);
+// const [towns, setTowns] = useState(null);
+// const handleTowns = () => {
+//    setShowTowns((prevState) => !prevState);
+//    axios.get(USERS_TOWNS).then((res) => {
+//       setTowns(res.data);
+//    });
+// };

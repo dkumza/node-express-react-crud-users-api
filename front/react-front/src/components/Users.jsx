@@ -2,15 +2,19 @@
 import axios from "axios";
 const USERS_URL = "http://localhost:3000/api/users";
 
-export const Users = ({ users, setUsers }) => {
+export const Users = ({ users, setUsers, handleEditUser }) => {
    if (users === null) return;
 
    const handleDelete = (id) => {
-      console.log(id);
-      axios.delete(`${USERS_URL}/${id}`).then((res) => {
-         console.log(res.data);
-         setUsers(res.data);
-      });
+      axios
+         .delete(`${USERS_URL}/${id}`)
+         .then((res) => {
+            console.log(res.data);
+            setUsers(res.data);
+         })
+         .catch((error) => {
+            console.warn("Error:", error);
+         });
    };
    return (
       <div className="flex gap-4 flex-wrap items-center justify-center">
@@ -42,7 +46,12 @@ export const Users = ({ users, setUsers }) => {
                      >
                         Delete
                      </button>
-                     <button className="btn-del btn-edit">Edit</button>
+                     <button
+                        onClick={() => handleEditUser(user)}
+                        className="btn-del btn-edit"
+                     >
+                        Edit
+                     </button>
                   </div>
                </div>
             ))}

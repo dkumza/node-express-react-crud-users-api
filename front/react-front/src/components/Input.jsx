@@ -4,7 +4,13 @@ import { useState } from "react";
 
 const MAIN_URL = "http://localhost:3000/api";
 
-export const Input = ({ handleUsers }) => {
+export const Input = ({
+   handleUsersFromServer,
+   //    editing,
+   //    setEditing,
+   editingUser,
+   setEditingUser,
+}) => {
    const [newName, setNewName] = useState("");
    const [newTown, setNewTown] = useState("");
    const [newDriver, setNewDriver] = useState(false);
@@ -18,10 +24,17 @@ export const Input = ({ handleUsers }) => {
       };
       console.log(newUser);
       //   send newUser obj to server
-      axios.post(`${MAIN_URL}/users`, newUser).then((resp) => {
-         console.log(resp);
-         if (resp.status === 201) handleUsers();
-      });
+      axios
+         .post(`${MAIN_URL}/users`, newUser)
+         .then((resp) => {
+            console.log(resp);
+            if (resp.status === 201) handleUsersFromServer();
+         })
+         .catch((error) => {
+            console.warn("Error:", error);
+            // show errors
+            // alert("klaida");
+         });
    };
 
    return (
@@ -41,8 +54,17 @@ export const Input = ({ handleUsers }) => {
                   User Name
                </label>
                <input
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
+                  value={editingUser ? editingUser.name : newName}
+                  onChange={(e) => {
+                     if (editingUser) {
+                        setEditingUser({
+                           ...editingUser,
+                           name: e.target.value,
+                        });
+                     } else {
+                        setNewName(e.target.value);
+                     }
+                  }}
                   type="name"
                   id="name"
                   className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
@@ -58,7 +80,7 @@ export const Input = ({ handleUsers }) => {
                   User Town
                </label>
                <input
-                  value={newTown}
+                  value={editingUser ? editingUser.town : newTown}
                   onChange={(e) => setNewTown(e.target.value)}
                   type="address"
                   id="address"
@@ -70,7 +92,7 @@ export const Input = ({ handleUsers }) => {
             <div className="flex items-start ">
                <div className="flex items-center h-5">
                   <input
-                     value={newDriver}
+                     checked={editingUser ? editingUser.isDriver : newDriver}
                      onChange={(e) => setNewDriver(e.target.checked)}
                      id="remember"
                      type="checkbox"
@@ -85,10 +107,13 @@ export const Input = ({ handleUsers }) => {
                </label>
             </div>
             <button
-               type="submit"
-               className="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+               className={
+                  editingUser
+                     ? "text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                     : "text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+               }
             >
-               Create
+               {editingUser ? "Edit" : "Create"}
             </button>
          </form>
       </div>
