@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const uuid = require("uuid");
 
 const app = express();
 const port = 3000;
@@ -35,7 +36,7 @@ let users = [
 // Middleware
 app.use(morgan("dev"));
 app.use(cors()); // to fix cors error
-
+app.use(express.json()); //to read req.body in json
 // ROUTES
 
 app.get("/", (req, res) => {
@@ -87,6 +88,20 @@ app.delete("/api/users/:userId", (request, response) => {
    users = users.filter((uObj) => uObj.id !== userId);
    console.log("users ===", users);
    response.json(users);
+});
+
+// POST /api/users - create new users with ID
+app.post("/api/users", (req, res) => {
+   console.log(req);
+   const newUser = {
+      id: uuid(),
+      name: req.body.name,
+      town: req.body.town,
+      isDriver: req.body.isDriver,
+   };
+   console.log(newUser);
+   users.push(newUser);
+   res.sendStatus(201); // return success status
 });
 
 app.listen(port, () => {
