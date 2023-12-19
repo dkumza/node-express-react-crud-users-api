@@ -1,32 +1,32 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 const port = 3000;
 
 let users = [
    {
-      id: 1,
+      id: uuidv4(),
       name: "James",
       town: "London",
       isDriver: false,
    },
    {
-      id: 2,
+      id: uuidv4(),
       name: "Mike",
       town: "Kaunas",
       isDriver: true,
    },
    {
-      id: 3,
+      id: uuidv4(),
       name: "Bob",
       town: "Vilnius",
       isDriver: false,
    },
    {
-      id: 4,
+      id: uuidv4(),
       name: "Jane",
       town: "Klaipeda",
       isDriver: true,
@@ -66,7 +66,7 @@ app.get("/api/users/town", (request, response) => {
 // :userId dinamine dalis
 app.get("/api/users/:userId", (request, response) => {
    console.log("request.params ===", request.params);
-   const userId = +request.params.userId;
+   const userId = request.params.userId;
    // surasti objekta su id === userId ir ji grazinti
    const found = users.find((userObj) => userId === userObj.id);
    console.log("found ===", found);
@@ -83,7 +83,7 @@ app.get("/api/users/:userId", (request, response) => {
 
 //  DELETE - /api/users/2 - delete user with id
 app.delete("/api/users/:userId", (request, response) => {
-   const userId = +request.params.userId;
+   const userId = request.params.userId;
    // grazinti viska iskryrus ta el kurio id yra = userId
    users = users.filter((uObj) => uObj.id !== userId);
    console.log("users ===", users);
@@ -94,7 +94,7 @@ app.delete("/api/users/:userId", (request, response) => {
 app.post("/api/users", (req, res) => {
    console.log(req);
    const newUser = {
-      id: uuid(),
+      id: uuidv4(),
       name: req.body.name,
       town: req.body.town,
       isDriver: req.body.isDriver,

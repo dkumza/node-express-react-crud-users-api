@@ -1,10 +1,38 @@
-export const Input = () => {
+/* eslint-disable react/prop-types */
+import axios from "axios";
+import { useState } from "react";
+
+const MAIN_URL = "http://localhost:3000/api";
+
+export const Input = ({ handleUsers }) => {
+   const [newName, setNewName] = useState("");
+   const [newTown, setNewTown] = useState("");
+   const [newDriver, setNewDriver] = useState(false);
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      const newUser = {
+         name: newName,
+         town: newTown,
+         isDriver: newDriver,
+      };
+      console.log(newUser);
+      //   send newUser obj to server
+      axios.post(`${MAIN_URL}/users`, newUser).then((resp) => {
+         console.log(resp);
+         if (resp.status === 201) handleUsers();
+      });
+   };
+
    return (
       <div className="mb-6">
          <h1 className="text-center mb-2 font-semibold text-2xl">
             Enter new User
          </h1>
-         <form className="max-w-sm mx-auto text-gray-900">
+         <form
+            className="max-w-sm mx-auto text-gray-900"
+            onSubmit={handleSubmit}
+         >
             <div className="mb-2">
                <label
                   htmlFor="name"
@@ -13,6 +41,8 @@ export const Input = () => {
                   User Name
                </label>
                <input
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
                   type="name"
                   id="name"
                   className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
@@ -28,6 +58,8 @@ export const Input = () => {
                   User Town
                </label>
                <input
+                  value={newTown}
+                  onChange={(e) => setNewTown(e.target.value)}
                   type="address"
                   id="address"
                   className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
@@ -38,11 +70,11 @@ export const Input = () => {
             <div className="flex items-start ">
                <div className="flex items-center h-5">
                   <input
+                     value={newDriver}
+                     onChange={(e) => setNewDriver(e.target.checked)}
                      id="remember"
                      type="checkbox"
-                     value=""
                      className="w-4 h-4 border border-sky-300 rounded focus:ring-3 focus:ring-blue-300 "
-                     required
                   />
                </div>
                <label

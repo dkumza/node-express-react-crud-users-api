@@ -6,6 +6,7 @@ export const Users = ({ users, setUsers }) => {
    if (users === null) return;
 
    const handleDelete = (id) => {
+      console.log(id);
       axios.delete(`${USERS_URL}/${id}`).then((res) => {
          console.log(res.data);
          setUsers(res.data);
