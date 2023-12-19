@@ -1,7 +1,7 @@
 export const Input = () => {
    return (
       <div className="mb-6">
-         <h1 className="text-center mb-4 font-semibold text-2xl">
+         <h1 className="text-center mb-2 font-semibold text-2xl">
             Enter new User
          </h1>
          <form className="max-w-sm mx-auto text-gray-900">
@@ -49,14 +49,14 @@ export const Input = () => {
                   htmlFor="remember"
                   className="ms-2 text-sm font-medium mb-2"
                >
-                  is Driving?
+                  Driving?
                </label>
             </div>
             <button
                type="submit"
                className="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
             >
-               Submit
+               Create
             </button>
          </form>
       </div>
