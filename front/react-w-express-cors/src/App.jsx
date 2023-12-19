@@ -20,7 +20,7 @@ function App() {
          <h1 className="text-center mb-4 font-semibold text-2xl">
             Users From Server
          </h1>
-         <Users users={users} />
+         <Users users={users} setUsers={setUsers} />
       </div>
    );
 }
