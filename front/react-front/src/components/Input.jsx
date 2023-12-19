@@ -32,10 +32,20 @@ export const Input = ({
          })
          .catch((error) => {
             console.warn("Error:", error);
-            // show errors
-            // alert("klaida");
          });
    };
+
+   const handleEdit = (e) => {
+      e.preventDefault();
+      setEditingUser(false);
+      // axios method to edit on endpoint
+   };
+
+   const defaultStyle =
+      "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center";
+   const defaultColor = editingUser
+      ? "text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-yellow-300"
+      : "text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300";
 
    return (
       <div className="mb-6">
@@ -107,11 +117,8 @@ export const Input = ({
                </label>
             </div>
             <button
-               className={
-                  editingUser
-                     ? "text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                     : "text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-               }
+               onClick={handleEdit}
+               className={`${defaultStyle} ${defaultColor}`}
             >
                {editingUser ? "Edit" : "Create"}
             </button>
