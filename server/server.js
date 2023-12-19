@@ -14,7 +14,7 @@ let users = [
 
 // Middleware
 app.use(morgan("dev"));
-app.use(cors()); // to fix cors errror
+app.use(cors()); // to fix cors error
 
 // ROUTES
 
