@@ -25,8 +25,8 @@ export const Input = ({
       //   send newUser obj to server
       axios
          .post(`${MAIN_URL}/users`, newUser)
-         .then((res) => {
-            if (res.status === 201) handleUsersFromServer();
+         .then((resp) => {
+            if (resp.status === 201) handleUsersFromServer();
          })
          .catch((error) => {
             console.warn("Error:", error);
@@ -45,7 +45,7 @@ export const Input = ({
       axios
          .put(`${MAIN_URL}/users/${id}`, editUser)
          .then((res) => {
-            if (res.status === 201) handleUsersFromServer();
+            if (res.status === 200) handleUsersFromServer();
          })
          .catch((error) => {
             console.warn("Error:", error);
@@ -137,9 +137,9 @@ export const Input = ({
                            editing
                               ? setEditingUser({
                                    ...editingUser,
-                                   isDriver: e.target.value,
+                                   isDriver: e.target.checked,
                                 })
-                              : setNewDriver(e.target.value);
+                              : setNewDriver(e.target.checked);
                         }
                      }}
                      id="remember"

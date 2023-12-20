@@ -105,23 +105,24 @@ app.post("/api/users", (req, res) => {
 // PUT /api/users - edit exiting user
 app.put("/api/users/:userId", (req, res) => {
    const userId = req.params.userId;
-   const editedUser = {
-      id: userId,
-      name: req.body.name,
-      town: req.body.town,
-      isDriver: req.body.isDriver,
-   };
+   const userExists = users.find((user) => user.id == userId); //finds if user exists by ID
 
-   const userExists = users.find((user) => user.id == userId); //finds if user exists
    if (userExists) {
+      // create edited user
+      const editedUser = {
+         id: userId,
+         name: req.body.name,
+         town: req.body.town,
+         isDriver: req.body.isDriver,
+      };
       users = users.map((user) => (user.id == userId ? editedUser : user));
       res.status(200).json({
          message: "User updated successfully",
          user: editedUser,
       });
-   } else {
-      res.status(404).json({ message: "User not found" });
    }
+
+   if (!userExists) res.status(404).json({ message: "User not found" });
 });
 
 app.listen(port, () => {
