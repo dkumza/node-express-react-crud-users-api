@@ -37,6 +37,7 @@ function App() {
    return (
       <div className="container mx-auto md:w-4/6 min-h-screen p-12">
          <Input
+            users={users}
             handleUsersFromServer={handleUsersFromServer}
             editing={editing}
             setEditing={setEditing}

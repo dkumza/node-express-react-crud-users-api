@@ -31,11 +31,14 @@ export const Input = ({
          .catch((error) => {
             console.warn("Error:", error);
          });
+
+      setNewName("");
+      setNewTown("");
+      setNewDriver(false);
    };
 
    const handleEdit = (e, id) => {
       e.preventDefault();
-
       const editUser = {
          name: editingUser.name,
          town: editingUser.town,
@@ -75,11 +78,7 @@ export const Input = ({
                   User Name
                </label>
                <input
-                  value={
-                     editing && editingUser !== null
-                        ? editingUser.name
-                        : newName
-                  }
+                  value={editing ? editingUser.name : newName}
                   onChange={(e) => {
                      {
                         editing
@@ -105,11 +104,7 @@ export const Input = ({
                   User Town
                </label>
                <input
-                  value={
-                     editing && editingUser !== null
-                        ? editingUser.town
-                        : newTown
-                  }
+                  value={editing ? editingUser.town : newTown}
                   onChange={(e) => {
                      {
                         editing
@@ -130,8 +125,7 @@ export const Input = ({
             <div className="flex items-start ">
                <div className="flex items-center h-5">
                   <input
-                     checked={editingUser ? editingUser.isDriver : newDriver}
-                     // onChange={(e) => setNewDriver(e.target.checked)}
+                     checked={editing ? editingUser.isDriver : newDriver}
                      onChange={(e) => {
                         {
                            editing

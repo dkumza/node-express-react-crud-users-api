@@ -83,7 +83,10 @@ app.get("/api/users/:userId", (request, response) => {
 //  DELETE - /api/users/2 - delete user with id
 app.delete("/api/users/:userId", (request, response) => {
    const userId = request.params.userId;
-   users = users.filter((uObj) => uObj.id !== userId); // returns array w/o deleted user
+   const userExists = users.find((user) => user.id == userId);
+   if (userExists) users = users.filter((uObj) => uObj.id !== userId); // returns array w/o deleted user
+
+   if (!userExists) res.status(404).json({ message: "User not found" });
    console.log("users ===", users);
    response.json(users);
 });
@@ -105,24 +108,19 @@ app.post("/api/users", (req, res) => {
 // PUT /api/users - edit exiting user
 app.put("/api/users/:userId", (req, res) => {
    const userId = req.params.userId;
-   const userExists = users.find((user) => user.id == userId); //finds if user exists by ID
-
-   if (userExists) {
-      // create edited user
-      const editedUser = {
+   //finds if user exists by ID
+   const foundIdx = users.findIndex((user) => user.id === userId);
+   if (foundIdx !== -1) {
+      users[foundIdx] = {
          id: userId,
-         name: req.body.name,
-         town: req.body.town,
-         isDriver: req.body.isDriver,
+         ...req.body,
       };
-      users = users.map((user) => (user.id == userId ? editedUser : user));
       res.status(200).json({
          message: "User updated successfully",
-         user: editedUser,
+         users,
       });
    }
-
-   if (!userExists) res.status(404).json({ message: "User not found" });
+   if (foundIdx) res.status(404).json({ message: "User not found" });
 });
 
 app.listen(port, () => {
