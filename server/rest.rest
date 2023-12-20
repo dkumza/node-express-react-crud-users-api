@@ -24,3 +24,13 @@ Content-Type:  application/json
   "town": "Kazkur",
   "isDriver": false
 }
+
+### Edit user
+PUT http://localhost:3000/api/users/baa7692a-5f92-4d42-bee9-6d0753fb12c1
+Content-Type:  application/json
+
+{
+  "name": "UpdatedName",
+  "town": "UpdatedTown",
+  "isDriver": true
+}

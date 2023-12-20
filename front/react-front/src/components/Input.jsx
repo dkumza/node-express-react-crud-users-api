@@ -33,11 +33,24 @@ export const Input = ({
          });
    };
 
-   const handleEdit = (e) => {
+   const handleEdit = (e, id) => {
       e.preventDefault();
-      console.log(editingUser);
-      // axios method to edit on endpoint
 
+      const editUser = {
+         name: editingUser.name,
+         town: editingUser.town,
+         isDriver: editingUser.isDriver,
+      };
+      // axios method to edit on endpoint
+      axios
+         .put(`${MAIN_URL}/users/${id}`, editUser)
+         .then((res) => {
+            console.log(res.data);
+            handleUsersFromServer();
+         })
+         .catch((error) => {
+            console.warn("Error:", error);
+         });
       // disable edit
       setEditingUser(null);
       setEditing(false);
@@ -45,9 +58,6 @@ export const Input = ({
 
    const defaultStyle =
       "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center";
-   const defaultColor = editing
-      ? "text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-yellow-300"
-      : "text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300";
 
    return (
       <div className="mb-6">
@@ -122,12 +132,20 @@ export const Input = ({
                   Driving?
                </label>
             </div>
-            <button
-               onClick={handleEdit}
-               className={`${defaultStyle} ${defaultColor}`}
-            >
-               {editingUser ? "Edit" : "Create"}
-            </button>
+            {editing ? (
+               <button
+                  onClick={(e) => handleEdit(e, editingUser.id)}
+                  className={`${defaultStyle}text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-yellow-300`}
+               >
+                  Edit
+               </button>
+            ) : (
+               <button
+                  className={`${defaultStyle} text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300`}
+               >
+                  Create
+               </button>
+            )}
          </form>
       </div>
    );

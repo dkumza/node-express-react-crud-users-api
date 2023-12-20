@@ -104,6 +104,28 @@ app.post("/api/users", (req, res) => {
    res.sendStatus(201); // return success status
 });
 
+// PUT /api/users - edit exiting user
+app.put("/api/users/:userId", (req, res) => {
+   const userId = req.params.userId;
+   const editedUser = {
+      id: userId,
+      name: req.body.name,
+      town: req.body.town,
+      isDriver: req.body.isDriver,
+   };
+
+   const userExists = users.some((user) => user.id == userId); //finds if user exists
+   if (userExists) {
+      users = users.map((user) => (user.id == userId ? editedUser : user));
+      res.status(200).json({
+         message: "User updated successfully",
+         user: editedUser,
+      });
+   } else {
+      res.status(404).json({ message: "User not found" });
+   }
+});
+
 app.listen(port, () => {
    console.log(`server is running http://localhost:${port}`);
 });
