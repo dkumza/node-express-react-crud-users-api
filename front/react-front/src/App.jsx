@@ -11,7 +11,7 @@ const USERS_URL = "http://localhost:3000/api/users";
 
 function App() {
    const [users, setUsers] = useState(null);
-   // const [editing, setEditing] = useState(false);
+   const [editing, setEditing] = useState(false);
    const [editingUser, setEditingUser] = useState(null);
 
    useEffect(() => {
@@ -30,19 +30,16 @@ function App() {
    };
 
    const handleEditUser = (user) => {
-      console.log("EDITING:");
-      console.table(user);
-      // setEditing(true);
       setEditingUser(user);
-      // setEditing(false);
+      setEditing(true);
    };
 
    return (
       <div className="container mx-auto md:w-4/6 min-h-screen p-12">
          <Input
             handleUsersFromServer={handleUsersFromServer}
-            // editing={editing}
-            // setEditing={setEditing}
+            editing={editing}
+            setEditing={setEditing}
             editingUser={editingUser}
             setEditingUser={setEditingUser}
          />

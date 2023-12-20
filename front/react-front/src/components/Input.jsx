@@ -6,8 +6,8 @@ const MAIN_URL = "http://localhost:3000/api";
 
 export const Input = ({
    handleUsersFromServer,
-   //    editing,
-   //    setEditing,
+   editing,
+   setEditing,
    editingUser,
    setEditingUser,
 }) => {
@@ -22,12 +22,10 @@ export const Input = ({
          town: newTown,
          isDriver: newDriver,
       };
-      console.log(newUser);
       //   send newUser obj to server
       axios
          .post(`${MAIN_URL}/users`, newUser)
          .then((resp) => {
-            console.log(resp);
             if (resp.status === 201) handleUsersFromServer();
          })
          .catch((error) => {
@@ -37,13 +35,17 @@ export const Input = ({
 
    const handleEdit = (e) => {
       e.preventDefault();
-      setEditingUser(false);
+      console.log(editingUser);
       // axios method to edit on endpoint
+
+      // disable edit
+      setEditingUser(null);
+      setEditing(false);
    };
 
    const defaultStyle =
       "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center";
-   const defaultColor = editingUser
+   const defaultColor = editing
       ? "text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-yellow-300"
       : "text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300";
 
@@ -64,15 +66,19 @@ export const Input = ({
                   User Name
                </label>
                <input
-                  value={editingUser ? editingUser.name : newName}
+                  value={
+                     editing && editingUser !== null
+                        ? editingUser.name
+                        : newName
+                  }
                   onChange={(e) => {
-                     if (editingUser) {
-                        setEditingUser({
-                           ...editingUser,
-                           name: e.target.value,
-                        });
-                     } else {
-                        setNewName(e.target.value);
+                     {
+                        editing
+                           ? setEditingUser({
+                                ...editingUser,
+                                name: e.target.value,
+                             })
+                           : setNewName(e.target.value);
                      }
                   }}
                   type="name"
