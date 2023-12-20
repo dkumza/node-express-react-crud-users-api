@@ -37,37 +37,37 @@ let users = [
 app.use(morgan("dev"));
 app.use(cors()); // to fix cors error
 app.use(express.json()); //to read req.body in json
-// ROUTES
 
+// ROUTES
 app.get("/", (req, res) => {
    res.send("Hello World!");
 });
 
-// GET - /api/users - grazinti visus userius
+// GET - /api/users - returns all users
 app.get("/api/users", (request, response) => {
    response.status(200).json(users);
 });
 
-// GET - /api/users/drivers - grazins visus vairuotojus
+// GET - /api/users/drivers - returns all drivers
 app.get("/api/users/drivers", (request, response) => {
    const driversArr = users.filter((userObj) => userObj.isDriver === true);
    console.log(driversArr);
    response.json(driversArr);
 });
 
-// GET - /api/users/town - grazinsi visus miestus masyvo pavidalu
+// GET - /api/users/town - returns all users towns
 app.get("/api/users/town", (request, response) => {
    const townsArr = users.map((uObj) => uObj.town);
    console.log("townsArr ===", townsArr);
    response.json(townsArr);
 });
 
-// GET - /api/users/1 - grazinti konretu  useri
-// :userId dinamine dalis
+// GET - /api/users/1 - returns user by ID
+// :userId dynamic part
 app.get("/api/users/:userId", (request, response) => {
    console.log("request.params ===", request.params);
    const userId = request.params.userId;
-   // surasti objekta su id === userId ir ji grazinti
+   // finds user by id (if exists)
    const found = users.find((userObj) => userId === userObj.id);
    console.log("found ===", found);
    // TODO: not found case
@@ -84,8 +84,7 @@ app.get("/api/users/:userId", (request, response) => {
 //  DELETE - /api/users/2 - delete user with id
 app.delete("/api/users/:userId", (request, response) => {
    const userId = request.params.userId;
-   // grazinti viska iskryrus ta el kurio id yra = userId
-   users = users.filter((uObj) => uObj.id !== userId);
+   users = users.filter((uObj) => uObj.id !== userId); // returns array w/o deleted user
    console.log("users ===", users);
    response.json(users);
 });
