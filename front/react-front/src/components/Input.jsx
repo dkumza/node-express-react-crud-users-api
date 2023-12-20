@@ -45,7 +45,7 @@ export const Input = ({
       axios
          .put(`${MAIN_URL}/users/${id}`, editUser)
          .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             handleUsersFromServer();
          })
          .catch((error) => {
@@ -106,8 +106,21 @@ export const Input = ({
                   User Town
                </label>
                <input
-                  value={editingUser ? editingUser.town : newTown}
-                  onChange={(e) => setNewTown(e.target.value)}
+                  value={
+                     editing && editingUser !== null
+                        ? editingUser.town
+                        : newTown
+                  }
+                  onChange={(e) => {
+                     {
+                        editing
+                           ? setEditingUser({
+                                ...editingUser,
+                                town: e.target.value,
+                             })
+                           : setNewTown(e.target.value);
+                     }
+                  }}
                   type="address"
                   id="address"
                   className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
@@ -119,7 +132,17 @@ export const Input = ({
                <div className="flex items-center h-5">
                   <input
                      checked={editingUser ? editingUser.isDriver : newDriver}
-                     onChange={(e) => setNewDriver(e.target.checked)}
+                     // onChange={(e) => setNewDriver(e.target.checked)}
+                     onChange={(e) => {
+                        {
+                           editing
+                              ? setEditingUser({
+                                   ...editingUser,
+                                   isDriver: e.target.value,
+                                })
+                              : setNewDriver(e.target.value);
+                        }
+                     }}
                      id="remember"
                      type="checkbox"
                      className="w-4 h-4 border border-sky-300 rounded focus:ring-3 focus:ring-blue-300 "
@@ -135,9 +158,9 @@ export const Input = ({
             {editing ? (
                <button
                   onClick={(e) => handleEdit(e, editingUser.id)}
-                  className={`${defaultStyle}text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-yellow-300`}
+                  className={`${defaultStyle}text-black bg-green-300 hover:bg-green-400 focus:ring-lime-400`}
                >
-                  Edit
+                  Save
                </button>
             ) : (
                <button
