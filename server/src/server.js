@@ -70,8 +70,7 @@ app.get("/api/users/:userId", (request, response) => {
    // finds user by id (if exists)
    const found = users.find((userObj) => userId === userObj.id);
    console.log("found ===", found);
-   // TODO: not found case
-   // jei neradom
+
    if (found === undefined) {
       response
          .status(404)
@@ -113,7 +112,7 @@ app.put("/api/users/:userId", (req, res) => {
       isDriver: req.body.isDriver,
    };
 
-   const userExists = users.some((user) => user.id == userId); //finds if user exists
+   const userExists = users.find((user) => user.id == userId); //finds if user exists
    if (userExists) {
       users = users.map((user) => (user.id == userId ? editedUser : user));
       res.status(200).json({
