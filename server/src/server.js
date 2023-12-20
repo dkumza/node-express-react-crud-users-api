@@ -93,14 +93,12 @@ app.delete("/api/users/:userId", (request, response) => {
 
 // POST /api/users - create new users with ID
 app.post("/api/users", (req, res) => {
-   console.log(req);
    const newUser = {
       id: uuidv4(),
       name: req.body.name,
       town: req.body.town,
       isDriver: req.body.isDriver,
    };
-   console.log(newUser);
    users.push(newUser);
    res.sendStatus(201); // return success status
 });
@@ -110,17 +108,15 @@ app.put("/api/users/:userId", (req, res) => {
    const userId = req.params.userId;
    //finds if user exists by ID
    const foundIdx = users.findIndex((user) => user.id === userId);
-   if (foundIdx !== -1) {
-      users[foundIdx] = {
-         id: userId,
-         ...req.body,
-      };
-      res.status(200).json({
-         message: "User updated successfully",
-         users,
-      });
-   }
-   if (foundIdx) res.status(404).json({ message: "User not found" });
+
+   users[foundIdx] = {
+      id: userId,
+      ...req.body,
+   };
+   res.status(200).json({
+      message: "User updated successfully",
+      users,
+   });
 });
 
 app.listen(port, () => {
