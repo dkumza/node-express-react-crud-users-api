@@ -57,17 +57,7 @@ usersRouter.get("/api/users/:userId", (request, response) => {
    response.status(200).json(found);
 });
 
-//  DELETE - /api/users/2 - delete user with id
-usersRouter.delete("/api/users/:userId", (request, response) => {
-   const userId = request.params.userId;
-   const userExists = users.find((user) => user.id == userId);
-   if (userExists) users = users.filter((user) => user.id !== userId); // returns array w/o deleted user
-
-   if (!userExists) res.status(404).json({ message: "User not found" });
-   response.json(users);
-});
-
-// POST /api/users - create new users with ID
+// POST /api/users - CREATE new users with ID
 usersRouter.post("/api/users", validateUser, (req, res) => {
    const newUser = {
       id: uuidv4(),
@@ -76,7 +66,10 @@ usersRouter.post("/api/users", validateUser, (req, res) => {
       isDriver: req.body.isDriver,
    };
    users.push(newUser);
-   res.sendStatus(201); // return success status
+   res.status(201).json({
+      message: "User created successfully",
+      users,
+   }); // return success status
 });
 
 // PUT /api/users - edit exiting user
@@ -101,6 +94,16 @@ usersRouter.put("/api/users/:userId", validateUser, (req, res) => {
       res.status(404).json({
          msg: `Edit FAILED. USER - not found`,
       });
+});
+
+//  DELETE - /api/users/2 - delete user with id
+usersRouter.delete("/api/users/:userId", (request, response) => {
+   const userId = request.params.userId;
+   const userExists = users.find((user) => user.id == userId);
+   if (userExists) users = users.filter((user) => user.id !== userId); // returns array w/o deleted user
+
+   if (!userExists) res.status(404).json({ message: "User not found" });
+   response.json(users);
 });
 
 module.exports = usersRouter;

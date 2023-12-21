@@ -9,7 +9,6 @@ export const Users = ({ users, setUsers, handleEditUser }) => {
       axios
          .delete(`${USERS_URL}/${id}`)
          .then((res) => {
-            console.log(res.data);
             setUsers(res.data);
          })
          .catch((error) => {

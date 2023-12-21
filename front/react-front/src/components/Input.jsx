@@ -5,7 +5,7 @@ import { useState } from "react";
 const MAIN_URL = "http://localhost:3000/api";
 
 export const Input = ({
-   handleUsersFromServer,
+   setUsers,
    editing,
    setEditing,
    editingUser,
@@ -25,8 +25,9 @@ export const Input = ({
       //   send newUser obj to server
       axios
          .post(`${MAIN_URL}/users`, newUser)
-         .then((resp) => {
-            if (resp.status === 201) handleUsersFromServer();
+         .then((res) => {
+            console.log(res);
+            if (res.status === 201) setUsers(res.data.users);
          })
          .catch((error) => {
             console.warn("Error:", error);
@@ -48,7 +49,8 @@ export const Input = ({
       axios
          .put(`${MAIN_URL}/users/${id}`, editUser)
          .then((res) => {
-            if (res.status === 200) handleUsersFromServer();
+            console.log(res);
+            if (res.status === 200) setUsers(res.data.users);
          })
          .catch((error) => {
             console.warn("Error:", error);

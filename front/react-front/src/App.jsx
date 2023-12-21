@@ -15,10 +15,6 @@ function App() {
    const [editingUser, setEditingUser] = useState(null);
 
    useEffect(() => {
-      handleUsersFromServer();
-   }, []);
-
-   const handleUsersFromServer = () => {
       axios
          .get(USERS_URL)
          .then((res) => {
@@ -27,7 +23,7 @@ function App() {
          .catch((error) => {
             console.warn("Error:", error);
          });
-   };
+   }, []);
 
    const handleEditUser = (user) => {
       setEditingUser(user);
@@ -37,8 +33,7 @@ function App() {
    return (
       <div className="container mx-auto md:w-4/6 min-h-screen p-12">
          <Input
-            users={users}
-            handleUsersFromServer={handleUsersFromServer}
+            setUsers={setUsers}
             editing={editing}
             setEditing={setEditing}
             editingUser={editingUser}
