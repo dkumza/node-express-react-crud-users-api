@@ -26,11 +26,17 @@ export const Input = ({
       axios
          .post(`${MAIN_URL}/users`, newUser)
          .then((res) => {
-            console.log(res);
             if (res.status === 201) setUsers(res.data.users);
          })
          .catch((error) => {
-            console.warn("Error:", error);
+            console.warn("Error while creating new User:", error);
+            const { status, data } = error.response;
+            if (status === 400) {
+               // handleError(data)
+               console.log("data ===", data);
+               //   setErrorField(data.field);
+               //   setErrorMsg(data.error);
+            }
          });
 
       setNewName("");
@@ -49,11 +55,10 @@ export const Input = ({
       axios
          .put(`${MAIN_URL}/users/${id}`, editUser)
          .then((res) => {
-            console.log(res);
             if (res.status === 200) setUsers(res.data.users);
          })
          .catch((error) => {
-            console.warn("Error:", error);
+            console.warn("Error while editing user:", error);
          });
       // disable edit
       setEditingUser(null);
@@ -66,7 +71,7 @@ export const Input = ({
    return (
       <div className="mb-6">
          <h1 className="text-center mb-2 font-semibold text-2xl">
-            Enter new User
+            {editing ? `Editing - ${editingUser.name}` : " Enter new User"}
          </h1>
          <form
             className="max-w-sm mx-auto text-gray-900"
