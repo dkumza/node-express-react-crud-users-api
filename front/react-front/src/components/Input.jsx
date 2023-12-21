@@ -93,7 +93,7 @@ export const Input = ({
                   id="name"
                   className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter user name"
-                  required
+                  // required
                />
             </div>
             <div className="mb-2">
@@ -119,7 +119,7 @@ export const Input = ({
                   id="address"
                   className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter user town"
-                  required
+                  // required
                />
             </div>
             <div className="flex items-start ">
