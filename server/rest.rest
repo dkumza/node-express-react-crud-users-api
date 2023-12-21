@@ -1,16 +1,8 @@
-GET http://localhost:3000
-
 ### get all users
 GET http://localhost:3000/api/users
 
-### get all towns
-GET http://localhost:3000/api/users/town
-
-### get all drivers
-GET http://localhost:3000/api/users/drivers
-
 ### get Single user
-GET http://localhost:3000/api/users/delete/3
+GET http://localhost:3000/api/users/b60b3fb9-e497-47f2-82b3-00e1a3386bbd
 
 ### del Single user
 DELETE http://localhost:3000/api/users/1
@@ -20,13 +12,13 @@ POST http://localhost:3000/api/users
 Content-Type:  application/json
 
 {
-  "name": "Mike",
+  "name": "on",
   "town": "Kazkur",
   "isDriver": false
 }
 
 ### Edit user
-PUT http://localhost:3000/api/users/baa7692a-5f92-4d42-bee9-6d0753fb12c1
+PUT http://localhost:3000/api/users/7e61088e-50bd-49a2-9652-36b487819216
 Content-Type:  application/json
 
 {
