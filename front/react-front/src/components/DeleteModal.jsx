@@ -13,7 +13,7 @@ export const DeleteModal = ({ setDel, setToDel, toDel, handleDelete }) => {
          role="dialog"
          aria-modal="true"
       >
-         <div className="fixed inset-2 bg-zinc-200 bg-opacity-75 transition-opacity"></div>
+         <div className="fixed inset-0 bg-zinc-200 bg-opacity-75 transition-opacity"></div>
          <div className="relative top-7 p-4 w-full min-w-full min-h-full">
             <div className="relative bg-white rounded-lg border border-sky-200">
                <button
