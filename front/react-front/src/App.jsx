@@ -5,6 +5,7 @@ import "./App.css";
 import { Users } from "./components/Users";
 // import { UsersTowns } from "./components/UsersTowns";
 import { Input } from "./components/Input";
+import { DeleteModal } from "./components/DeleteModal";
 
 const USERS_URL = "http://localhost:3000/api/users";
 // const USERS_TOWNS = "http://localhost:3000/api/users/town";
@@ -13,6 +14,8 @@ function App() {
    const [users, setUsers] = useState(null);
    const [editing, setEditing] = useState(false);
    const [editingUser, setEditingUser] = useState(null);
+   const [del, setDel] = useState(false);
+   const [toDel, setToDel] = useState(null);
 
    useEffect(() => {
       axios
@@ -30,8 +33,28 @@ function App() {
       setEditing(true);
    };
 
+   const handleDelete = (toDel) => {
+      axios
+         .delete(`${USERS_URL}/${toDel}`)
+         .then((res) => {
+            setUsers(res.data);
+         })
+         .catch((error) => {
+            console.warn("Error:", error);
+         });
+   };
+
    return (
-      <div className="container mx-auto md:w-4/6 min-h-screen p-12">
+      <div className="container mx-auto md:w-4/6 min-h-screen min-w-full p-12 relative flex flex-col items-center">
+         {del ? (
+            <DeleteModal
+               setDel={setDel}
+               toDel={toDel}
+               setToDel={setToDel}
+               handleDelete={handleDelete}
+            />
+         ) : null}
+
          <Input
             setUsers={setUsers}
             editing={editing}
@@ -46,6 +69,8 @@ function App() {
             users={users}
             setUsers={setUsers}
             handleEditUser={handleEditUser}
+            setDel={setDel}
+            setToDel={setToDel}
          />
          {/* <UsersTowns
             handleTowns={handleTowns}

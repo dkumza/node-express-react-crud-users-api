@@ -2,24 +2,20 @@
 import axios from "axios";
 const USERS_URL = "http://localhost:3000/api/users";
 
-export const Users = ({ users, setUsers, handleEditUser }) => {
+export const Users = ({
+   users,
+   setUsers,
+   handleEditUser,
+   setDel,
+   setToDel,
+}) => {
    if (users === null) return;
 
-   const handleDelete = (id) => {
-      axios
-         .delete(`${USERS_URL}/${id}`)
-         .then((res) => {
-            setUsers(res.data);
-         })
-         .catch((error) => {
-            console.warn("Error:", error);
-         });
-   };
    return (
-      <div className="flex gap-4 flex-wrap items-center justify-center">
+      <div className="flex gap-4 flex-wrap items-center justify-center md:w-3/6">
          {users.length === 0 && (
-            <div className="uppercase text-xs">
-               No Users... Enter new user above
+            <div className="uppercase text-xs text-gray-400">
+               No Users found. Enter new user above
             </div>
          )}
          {users &&
@@ -40,8 +36,10 @@ export const Users = ({ users, setUsers, handleEditUser }) => {
                      <button
                         className="btn-del"
                         onClick={() => {
-                           handleDelete(user.id);
+                           setDel(true);
+                           setToDel(user.id);
                         }}
+                        // onClick={() => handleDelete(user.id)}
                      >
                         Delete
                      </button>

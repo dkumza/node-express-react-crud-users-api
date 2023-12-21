@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { useState } from "react";
+import { DeleteModal } from "./DeleteModal";
 
 const MAIN_URL = "http://localhost:3000/api";
 
@@ -65,11 +66,18 @@ export const Input = ({
       setEditing(false);
    };
 
+   const handleCancel = (e) => {
+      e.preventDefault();
+      setEditingUser(null);
+      setEditing(false);
+   };
+
    const defaultStyle =
       "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center";
 
    return (
-      <div className="mb-6">
+      <div className="mb-6 w-full">
+         {/* <DeleteModal /> */}
          <h1 className="text-center mb-2 font-semibold text-2xl">
             {editing ? `Editing - ${editingUser.name}` : " Enter new User"}
          </h1>
@@ -156,12 +164,20 @@ export const Input = ({
                </label>
             </div>
             {editing ? (
-               <button
-                  onClick={(e) => handleEdit(e, editingUser.id)}
-                  className={`${defaultStyle}text-black bg-green-300 hover:bg-green-400 focus:ring-lime-400`}
-               >
-                  Save
-               </button>
+               <div className="edit-btns flex gap-4">
+                  <button
+                     onClick={(e) => handleEdit(e, editingUser.id)}
+                     className={`${defaultStyle}text-black bg-green-400 hover:bg-green-400 focus:ring-lime-400`}
+                  >
+                     Save
+                  </button>
+                  <button
+                     onClick={(e) => handleCancel(e)}
+                     className={`${defaultStyle}text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-yellow-400`}
+                  >
+                     Cancel
+                  </button>
+               </div>
             ) : (
                <button
                   className={`${defaultStyle} text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300`}
