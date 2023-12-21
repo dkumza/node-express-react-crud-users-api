@@ -33,7 +33,7 @@ export const Input = ({
             const { status, data } = error.response;
             if (status === 400) {
                // handleError(data)
-               console.log("data ===", data);
+               console.log("error data:", data);
                //   setErrorField(data.field);
                //   setErrorMsg(data.error);
             }
