@@ -21,7 +21,7 @@ export const Users = ({
          {users &&
             users.map((user) => (
                <div
-                  className="flex  w-full px-4 py-2 text-center justify-between items-center bg-sky-100 border border-sky-500 rounded-lg gap-2"
+                  className="flex  w-full px-4 py-2 text-center justify-between items-center bg-sky-100 border border-sky-300 rounded-lg gap-2"
                   key={user.id}
                >
                   <div className="user-wrap flex gap-2">

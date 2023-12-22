@@ -12,9 +12,13 @@ export const Input = ({
    editingUser,
    setEditingUser,
 }) => {
+   // new user states
    const [newName, setNewName] = useState("");
    const [newTown, setNewTown] = useState("");
    const [newDriver, setNewDriver] = useState(false);
+   // error / validation message states
+   const [errOne, setErrOne] = useState(null);
+   const [errTwo, setErrTwo] = useState("");
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -27,22 +31,24 @@ export const Input = ({
       axios
          .post(`${MAIN_URL}/users`, newUser)
          .then((res) => {
-            if (res.status === 201) setUsers(res.data.users);
+            if (res.status === 201) {
+               setUsers(res.data.users);
+               setNewName("");
+               setNewTown("");
+               setNewDriver(false);
+               setErrOne(null);
+               setErrTwo(null);
+            }
          })
          .catch((error) => {
             console.warn("Error while creating new User:", error);
             const { status, data } = error.response;
             if (status === 400) {
-               // handleError(data)
                console.log("error data:", data);
-               //   setErrorField(data.field);
-               //   setErrorMsg(data.error);
+               setErrOne(data.msg_1);
+               setErrTwo(data.msg_2);
             }
          });
-
-      setNewName("");
-      setNewTown("");
-      setNewDriver(false);
    };
 
    const handleEdit = (e, id) => {
@@ -56,14 +62,23 @@ export const Input = ({
       axios
          .put(`${MAIN_URL}/users/${id}`, editUser)
          .then((res) => {
-            if (res.status === 200) setUsers(res.data.users);
+            if (res.status === 200) {
+               setUsers(res.data.users);
+               setEditingUser(null);
+               setEditing(false);
+               setErrOne(null);
+               setErrTwo(null);
+            }
          })
          .catch((error) => {
-            console.warn("Error while editing user:", error);
+            console.warn("Error while editing User:", error);
+            const { status, data } = error.response;
+            if (status === 400) {
+               console.log("error data:", data);
+               setErrOne(data.msg_1);
+               setErrTwo(data.msg_2);
+            }
          });
-      // disable edit
-      setEditingUser(null);
-      setEditing(false);
    };
 
    const handleCancel = (e) => {
@@ -73,11 +88,10 @@ export const Input = ({
    };
 
    const defaultStyle =
-      "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center";
+      "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center";
 
    return (
       <div className="mb-6 w-full">
-         {/* <DeleteModal /> */}
          <h1 className="text-center mb-2 font-semibold text-2xl">
             {editing ? `Editing - ${editingUser.name}` : " Enter new User"}
          </h1>
@@ -106,10 +120,13 @@ export const Input = ({
                   }}
                   type="name"
                   id="name"
-                  className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
+                  className="border  text-sm rounded-lg outline-sky-500  block w-full p-2.5 bg-sky-100 border-sky-300  focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter user name"
                   // required
                />
+               {errOne && (
+                  <div className="err-wrap text-xs text-rose-500">{errOne}</div>
+               )}
             </div>
             <div className="mb-2">
                <label
@@ -132,10 +149,13 @@ export const Input = ({
                   }}
                   type="address"
                   id="address"
-                  className="border  text-sm rounded-lg  block w-full p-2.5 bg-sky-100 border-sky-600  focus:ring-blue-500 focus:border-blue-500"
+                  className="border  text-sm rounded-lg outline-sky-500  block w-full p-2.5 bg-sky-100 border-sky-300  focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter user town"
                   // required
                />
+               {errTwo && (
+                  <div className="err-wrap text-xs text-rose-500">{errTwo}</div>
+               )}
             </div>
             <div className="flex items-start ">
                <div className="flex items-center h-5">

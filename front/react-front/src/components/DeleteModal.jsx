@@ -6,6 +6,11 @@ export const DeleteModal = ({ setDel, setToDel, toDel, handleDelete }) => {
       setToDel(null);
       setDel(false);
    };
+
+   const handleCancelDel = () => {
+      setToDel(null);
+      setDel(false);
+   };
    return (
       <div
          className="absolute z-10"
@@ -13,14 +18,17 @@ export const DeleteModal = ({ setDel, setToDel, toDel, handleDelete }) => {
          role="dialog"
          aria-modal="true"
       >
-         <div className="fixed inset-0 bg-zinc-200 bg-opacity-75 transition-opacity"></div>
+         <div
+            className="fixed inset-0 bg-zinc-200 bg-opacity-75 transition-opacity"
+            onClick={() => setDel(false)}
+         ></div>
          <div className="relative top-7 p-4 w-full min-w-full min-h-full">
             <div className="relative bg-white rounded-lg border border-sky-200">
                <button
                   type="button"
                   className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
                   data-modal-hide="popup-modal"
-                  onClick={() => setDel(false)}
+                  onClick={handleCancelDel}
                >
                   <svg
                      className="w-3 h-3"
@@ -71,7 +79,7 @@ export const DeleteModal = ({ setDel, setToDel, toDel, handleDelete }) => {
                         data-modal-hide="popup-modal"
                         type="button"
                         className="btn-del btn-edit "
-                        onClick={() => setDel(false)}
+                        onClick={handleCancelDel}
                      >
                         No, cancel
                      </button>
