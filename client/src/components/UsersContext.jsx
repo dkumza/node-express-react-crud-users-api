@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const UsersContext = createContext();
 
-const USERS_URL = "http://localhost:3000/api/users";
+const MAIN_URL = "http://localhost:3000/api/users";
 
 export const UsersProvider = ({ children }) => {
    const [users, setUsers] = useState(null); // users from DB
@@ -12,10 +12,17 @@ export const UsersProvider = ({ children }) => {
    const [del, setDel] = useState(false); // state to show modal to delete
    const [toDel, setToDel] = useState(null); // state for delete user
    const [originalName, setOriginalName] = useState(""); // show name of editing user as static value
+   // new user states
+   const [newName, setNewName] = useState("");
+   const [newTown, setNewTown] = useState("");
+   const [newDriver, setNewDriver] = useState(false);
+   // error / validation message states
+   const [errOne, setErrOne] = useState(null);
+   const [errTwo, setErrTwo] = useState("");
 
    useEffect(() => {
       axios
-         .get(USERS_URL)
+         .get(MAIN_URL)
          .then((res) => {
             setUsers(res.data);
          })
@@ -32,13 +39,79 @@ export const UsersProvider = ({ children }) => {
 
    const handleDelete = (toDel) => {
       axios
-         .delete(`${USERS_URL}/${toDel}`)
+         .delete(`${MAIN_URL}/${toDel}`)
          .then((res) => {
             setUsers(res.data);
          })
          .catch((error) => {
             console.warn("Error:", error);
          });
+   };
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      const newUser = {
+         name: newName,
+         town: newTown,
+         isDriver: newDriver,
+      };
+      //   send newUser obj to server
+      axios
+         .post(`${MAIN_URL}`, newUser)
+         .then((res) => {
+            if (res.status === 201) {
+               setUsers(res.data.users);
+               setNewName("");
+               setNewTown("");
+               setNewDriver(false);
+               setErrOne(null);
+               setErrTwo(null);
+            }
+         })
+         .catch((error) => {
+            console.warn("Error while creating new User:", error);
+            const { status, data } = error.response;
+            if (status === 400) {
+               setErrOne(data.msg_1);
+               setErrTwo(data.msg_2);
+            }
+         });
+   };
+
+   const handleEdit = (e, id) => {
+      e.preventDefault();
+      const editUser = {
+         name: editingUser.name,
+         town: editingUser.town,
+         isDriver: editingUser.isDriver,
+      };
+      // axios method to edit on endpoint
+      axios
+         .put(`${MAIN_URL}/users/${id}`, editUser)
+         .then((res) => {
+            if (res.status === 200) {
+               setUsers(res.data.users);
+               console.log(editUser);
+               setEditingUser(null);
+               setEditing(false);
+               setErrOne(null);
+               setErrTwo(null);
+            }
+         })
+         .catch((error) => {
+            console.warn("Error while editing User:", error);
+            const { status, data } = error.response;
+            if (status === 400) {
+               setErrOne(data.msg_1);
+               setErrTwo(data.msg_2);
+            }
+         });
+   };
+
+   const handleCancel = (e) => {
+      e.preventDefault();
+      setEditingUser(null);
+      setEditing(false);
    };
 
    return (
@@ -58,6 +131,19 @@ export const UsersProvider = ({ children }) => {
             setOriginalName,
             handleDelete,
             handleEditUser,
+            newName,
+            setNewName,
+            newTown,
+            setNewTown,
+            newDriver,
+            setNewDriver,
+            errOne,
+            setErrOne,
+            errTwo,
+            setErrTwo,
+            handleEdit,
+            handleSubmit,
+            handleCancel,
          }}
       >
          {children}

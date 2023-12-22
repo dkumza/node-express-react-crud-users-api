@@ -1,25 +1,90 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
-import { UsersContext } from "./UsersContext";
+import axios from "axios";
+import { useState } from "react";
 
-export const Input = () => {
-   const {
-      editing,
-      editingUser,
-      setEditingUser,
-      originalName,
-      newName,
-      setNewName,
-      newTown,
-      setNewTown,
-      newDriver,
-      setNewDriver,
-      errOne,
-      errTwo,
-      handleEdit,
-      handleSubmit,
-      handleCancel,
-   } = useContext(UsersContext);
+const MAIN_URL = "http://localhost:3000/api";
+
+export const Input = ({
+   setUsers,
+   editing,
+   setEditing,
+   editingUser,
+   setEditingUser,
+   originalName,
+}) => {
+   // new user states
+   const [newName, setNewName] = useState("");
+   const [newTown, setNewTown] = useState("");
+   const [newDriver, setNewDriver] = useState(false);
+   // error / validation message states
+   const [errOne, setErrOne] = useState(null);
+   const [errTwo, setErrTwo] = useState("");
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      const newUser = {
+         name: newName,
+         town: newTown,
+         isDriver: newDriver,
+      };
+      //   send newUser obj to server
+      axios
+         .post(`${MAIN_URL}/users`, newUser)
+         .then((res) => {
+            if (res.status === 201) {
+               setUsers(res.data.users);
+               setNewName("");
+               setNewTown("");
+               setNewDriver(false);
+               setErrOne(null);
+               setErrTwo(null);
+            }
+         })
+         .catch((error) => {
+            console.warn("Error while creating new User:", error);
+            const { status, data } = error.response;
+            if (status === 400) {
+               setErrOne(data.msg_1);
+               setErrTwo(data.msg_2);
+            }
+         });
+   };
+
+   const handleEdit = (e, id) => {
+      e.preventDefault();
+      const editUser = {
+         name: editingUser.name,
+         town: editingUser.town,
+         isDriver: editingUser.isDriver,
+      };
+      // axios method to edit on endpoint
+      axios
+         .put(`${MAIN_URL}/users/${id}`, editUser)
+         .then((res) => {
+            if (res.status === 200) {
+               setUsers(res.data.users);
+               console.log(editUser);
+               setEditingUser(null);
+               setEditing(false);
+               setErrOne(null);
+               setErrTwo(null);
+            }
+         })
+         .catch((error) => {
+            console.warn("Error while editing User:", error);
+            const { status, data } = error.response;
+            if (status === 400) {
+               setErrOne(data.msg_1);
+               setErrTwo(data.msg_2);
+            }
+         });
+   };
+
+   const handleCancel = (e) => {
+      e.preventDefault();
+      setEditingUser(null);
+      setEditing(false);
+   };
 
    const defaultStyle =
       "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center";
