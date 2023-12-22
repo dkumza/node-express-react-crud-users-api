@@ -5,16 +5,15 @@ import { DeleteModal } from "./DeleteModal";
 
 export const Input = () => {
    const {
+      name,
+      setName,
+      town,
+      setTown,
+      driver,
+      setDriver,
       editing,
       editingUser,
-      setEditingUser,
       originalName,
-      newName,
-      setNewName,
-      newTown,
-      setNewTown,
-      newDriver,
-      setNewDriver,
       errOne,
       errTwo,
       handleEdit,
@@ -45,17 +44,8 @@ export const Input = () => {
                   User Name
                </label>
                <input
-                  value={editing ? editingUser.name : newName}
-                  onChange={(e) => {
-                     {
-                        editing
-                           ? setEditingUser({
-                                ...editingUser,
-                                name: e.target.value,
-                             })
-                           : setNewName(e.target.value);
-                     }
-                  }}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   type="name"
                   id="name"
                   className="border  text-sm rounded-lg outline-sky-500  block w-full p-2.5 bg-sky-100 border-sky-300  focus:ring-blue-500 focus:border-blue-500"
@@ -74,17 +64,8 @@ export const Input = () => {
                   User Town
                </label>
                <input
-                  value={editing ? editingUser.town : newTown}
-                  onChange={(e) => {
-                     {
-                        editing
-                           ? setEditingUser({
-                                ...editingUser,
-                                town: e.target.value,
-                             })
-                           : setNewTown(e.target.value);
-                     }
-                  }}
+                  value={town}
+                  onChange={(e) => setTown(e.target.value)}
                   type="address"
                   id="address"
                   className="border  text-sm rounded-lg outline-sky-500  block w-full p-2.5 bg-sky-100 border-sky-300  focus:ring-blue-500 focus:border-blue-500"
@@ -98,17 +79,8 @@ export const Input = () => {
             <div className="flex items-start ">
                <div className="flex items-center h-5">
                   <input
-                     checked={editing ? editingUser.isDriver : newDriver}
-                     onChange={(e) => {
-                        {
-                           editing
-                              ? setEditingUser({
-                                   ...editingUser,
-                                   isDriver: e.target.checked,
-                                })
-                              : setNewDriver(e.target.checked);
-                        }
-                     }}
+                     checked={driver}
+                     onChange={(e) => setDriver(e.target.checked)}
                      id="remember"
                      type="checkbox"
                      className="w-4 h-4 border border-sky-300 rounded focus:ring-3 focus:ring-blue-300 "

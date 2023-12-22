@@ -13,9 +13,9 @@ export const UsersProvider = ({ children }) => {
    const [toDel, setToDel] = useState(null); // state for delete user
    const [originalName, setOriginalName] = useState(""); // show name of editing user as static value
    // new user states
-   const [newName, setNewName] = useState("");
-   const [newTown, setNewTown] = useState("");
-   const [newDriver, setNewDriver] = useState(false);
+   const [name, setName] = useState(""); //
+   const [town, setTown] = useState("");
+   const [driver, setDriver] = useState(false);
    // error / validation message states
    const [errOne, setErrOne] = useState(null);
    const [errTwo, setErrTwo] = useState("");
@@ -31,29 +31,12 @@ export const UsersProvider = ({ children }) => {
          });
    }, []);
 
-   const handleEditUser = (user) => {
-      setEditingUser(user);
-      setOriginalName(user.name); // create static name to show on edit screen
-      setEditing(true);
-   };
-
-   const handleDelete = (toDel) => {
-      axios
-         .delete(`${MAIN_URL}/${toDel}`)
-         .then((res) => {
-            setUsers(res.data);
-         })
-         .catch((error) => {
-            console.warn("Error:", error);
-         });
-   };
-
    const handleSubmit = (e) => {
       e.preventDefault();
       const newUser = {
-         name: newName,
-         town: newTown,
-         isDriver: newDriver,
+         name: name,
+         town: town,
+         isDriver: driver,
       };
       //   send newUser obj to server
       axios
@@ -61,9 +44,9 @@ export const UsersProvider = ({ children }) => {
          .then((res) => {
             if (res.status === 201) {
                setUsers(res.data.users);
-               setNewName("");
-               setNewTown("");
-               setNewDriver(false);
+               setName("");
+               setTown("");
+               setDriver(false);
                setErrOne(null);
                setErrTwo(null);
             }
@@ -78,8 +61,23 @@ export const UsersProvider = ({ children }) => {
          });
    };
 
+   const handleFormFill = (id) => {
+      const found = users.find((user) => user.id === id); // if user exists fill input fields
+      setName(found.name);
+      setTown(found.town);
+      setDriver(found.isDriver);
+   };
+
+   const handleEditUser = (user) => {
+      handleFormFill(user.id);
+      setEditingUser(user);
+      setEditing(true);
+      setOriginalName(user.name); // create static name to show on edit screen
+   };
+
    const handleEdit = (e, id) => {
       e.preventDefault();
+
       const editUser = {
          name: editingUser.name,
          town: editingUser.town,
@@ -87,7 +85,7 @@ export const UsersProvider = ({ children }) => {
       };
       // axios method to edit on endpoint
       axios
-         .put(`${MAIN_URL}/users/${id}`, editUser)
+         .put(`${MAIN_URL}/${id}`, editUser)
          .then((res) => {
             if (res.status === 200) {
                setUsers(res.data.users);
@@ -108,18 +106,28 @@ export const UsersProvider = ({ children }) => {
          });
    };
 
-   const handleCancel = (e) => {
-      e.preventDefault();
-      setEditingUser(null);
-      setEditing(false);
-   };
-
    const handelDeleteUser = () => {
       // send to server to delete user by ID = toDel
       handleDelete(toDel);
       // reset modal / user ID
       setToDel(null);
       setDel(false);
+   };
+   const handleDelete = (toDel) => {
+      axios
+         .delete(`${MAIN_URL}/${toDel}`)
+         .then((res) => {
+            setUsers(res.data);
+         })
+         .catch((error) => {
+            console.warn("Error:", error);
+         });
+   };
+
+   const handleCancel = (e) => {
+      e.preventDefault();
+      setEditingUser(null);
+      setEditing(false);
    };
 
    const handleCancelDel = () => {
@@ -144,12 +152,12 @@ export const UsersProvider = ({ children }) => {
             setOriginalName,
             handleDelete,
             handleEditUser,
-            newName,
-            setNewName,
-            newTown,
-            setNewTown,
-            newDriver,
-            setNewDriver,
+            name,
+            setName,
+            town,
+            setTown,
+            driver,
+            setDriver,
             errOne,
             setErrOne,
             errTwo,
@@ -159,6 +167,7 @@ export const UsersProvider = ({ children }) => {
             handleCancel,
             handelDeleteUser,
             handleCancelDel,
+            handleFormFill,
          }}
       >
          {children}
