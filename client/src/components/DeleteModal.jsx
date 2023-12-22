@@ -1,16 +1,10 @@
-export const DeleteModal = ({ setDel, setToDel, toDel, handleDelete }) => {
-   const handelDeleteUser = () => {
-      // send to server to delete user by ID = toDel
-      handleDelete(toDel);
-      // reset modal / user ID
-      setToDel(null);
-      setDel(false);
-   };
+import { useContext } from "react";
+import { UsersContext } from "./UsersContext";
 
-   const handleCancelDel = () => {
-      setToDel(null);
-      setDel(false);
-   };
+export const DeleteModal = () => {
+   const { setDel, handelDeleteUser, handleCancelDel } =
+      useContext(UsersContext);
+
    return (
       <div
          className="absolute z-10"

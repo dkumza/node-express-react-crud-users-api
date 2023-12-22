@@ -9,6 +9,9 @@ export const Users = () => {
 
    return (
       <div className="flex gap-4 flex-wrap items-center justify-center md:w-3/6">
+         <h1 className="text-center mb-2 font-semibold text-2xl">
+            Users From Server
+         </h1>
          {users.length === 0 && (
             <div className="uppercase text-xs text-gray-400">
                No Users found. Enter new user above

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { UsersContext } from "./UsersContext";
+import { DeleteModal } from "./DeleteModal";
 
 export const Input = () => {
    const {
@@ -19,19 +20,21 @@ export const Input = () => {
       handleEdit,
       handleSubmit,
       handleCancel,
+      del,
    } = useContext(UsersContext);
 
    const defaultStyle =
       "focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center";
 
    return (
-      <div className="mb-6 w-full">
+      <div className="mb-6 relative flex flex-col items-center w-full">
+         {del ? <DeleteModal /> : null}
          <h1 className="text-center mb-2 font-semibold text-2xl">
             {/* shows original name as static editing user name value */}
             {editing ? `Editing - ${originalName}` : " Enter new User"}
          </h1>
          <form
-            className="max-w-sm mx-auto text-gray-900"
+            className="max-w-sm mx-auto text-gray-900 w-full"
             onSubmit={handleSubmit}
          >
             <div className="mb-2">

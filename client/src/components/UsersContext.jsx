@@ -114,6 +114,19 @@ export const UsersProvider = ({ children }) => {
       setEditing(false);
    };
 
+   const handelDeleteUser = () => {
+      // send to server to delete user by ID = toDel
+      handleDelete(toDel);
+      // reset modal / user ID
+      setToDel(null);
+      setDel(false);
+   };
+
+   const handleCancelDel = () => {
+      setToDel(null);
+      setDel(false);
+   };
+
    return (
       <UsersContext.Provider
          value={{
@@ -144,6 +157,8 @@ export const UsersProvider = ({ children }) => {
             handleEdit,
             handleSubmit,
             handleCancel,
+            handelDeleteUser,
+            handleCancelDel,
          }}
       >
          {children}
