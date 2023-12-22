@@ -1,4 +1,4 @@
-# Front /w React, Back /w Express - "Users DB"
+# Front /w React, Back /w Express - "Users API"
 
 This application is a playground provided by bit.lt. It uses Express as the back-end with different endpoints (GET, DELETE, POST, PUT), and React as the front-end to manipulate these endpoints at the DOM.
 
