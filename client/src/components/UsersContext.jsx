@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import axios from "axios";
+import { createContext, useState, useEffect } from "react";
 
 export const UsersContext = createContext();
 
@@ -41,9 +42,8 @@ export const UsersProvider = ({ children }) => {
    };
 
    return (
-      <UsersContext.Provider>
-         value={" "}
-         {{
+      <UsersContext.Provider
+         value={{
             users,
             setUsers,
             editing,
@@ -56,7 +56,10 @@ export const UsersProvider = ({ children }) => {
             setToDel,
             originalName,
             setOriginalName,
+            handleDelete,
+            handleEditUser,
          }}
+      >
          {children}
       </UsersContext.Provider>
    );

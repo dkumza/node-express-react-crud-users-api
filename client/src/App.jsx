@@ -12,7 +12,7 @@ function App() {
       <UsersProvider>
          <div className="container mx-auto md:w-4/6 min-h-screen min-w-full p-12 relative flex flex-col items-center">
             {/* {del ? <DeleteModal {...delModalProps} /> : null} */}
-            <Input />
+            {/* <Input /> */}
             <Users />
          </div>
       </UsersProvider>

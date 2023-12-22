@@ -1,5 +1,10 @@
+import { useContext } from "react";
+import { UsersContext } from "./UsersContext";
+
 /* eslint-disable react/prop-types */
-export const Users = ({ users, handleEditUser, setDel, setToDel }) => {
+export const Users = () => {
+   const { users, handleEditUser, setDel, setToDel } = useContext(UsersContext);
+
    if (users === null) return;
 
    return (
