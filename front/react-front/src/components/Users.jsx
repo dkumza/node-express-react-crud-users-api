@@ -1,14 +1,5 @@
 /* eslint-disable react/prop-types */
-import axios from "axios";
-const USERS_URL = "http://localhost:3000/api/users";
-
-export const Users = ({
-   users,
-   setUsers,
-   handleEditUser,
-   setDel,
-   setToDel,
-}) => {
+export const Users = ({ users, handleEditUser, setDel, setToDel }) => {
    if (users === null) return;
 
    return (
@@ -27,7 +18,6 @@ export const Users = ({
                   <div className="user-wrap flex gap-2">
                      <div className="">NAME: {user.name}.</div>
                      <div>TOWN: {user.town}.</div>
-                     {/* {console.log(user)} */}
                      <div className="">
                         DRIVER: {user.isDriver ? "YES" : "NO"}.
                      </div>
@@ -39,7 +29,6 @@ export const Users = ({
                            setDel(true);
                            setToDel(user.id);
                         }}
-                        // onClick={() => handleDelete(user.id)}
                      >
                         Delete
                      </button>

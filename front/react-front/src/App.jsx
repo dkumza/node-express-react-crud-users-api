@@ -3,12 +3,10 @@ import axios from "axios";
 
 import "./App.css";
 import { Users } from "./components/Users";
-// import { UsersTowns } from "./components/UsersTowns";
 import { Input } from "./components/Input";
 import { DeleteModal } from "./components/DeleteModal";
 
 const USERS_URL = "http://localhost:3000/api/users";
-// const USERS_TOWNS = "http://localhost:3000/api/users/town";
 
 function App() {
    const [users, setUsers] = useState(null);
@@ -16,6 +14,8 @@ function App() {
    const [editingUser, setEditingUser] = useState(null);
    const [del, setDel] = useState(false);
    const [toDel, setToDel] = useState(null);
+   // show name of editing user
+   const [originalName, setOriginalName] = useState("");
 
    useEffect(() => {
       axios
@@ -30,6 +30,7 @@ function App() {
 
    const handleEditUser = (user) => {
       setEditingUser(user);
+      setOriginalName(user.name); // create static name to show on edit screen
       setEditing(true);
    };
 
@@ -44,44 +45,51 @@ function App() {
          });
    };
 
+   const inputProps = {
+      setUsers,
+      editing,
+      setEditing,
+      editingUser,
+      setEditingUser,
+      originalName,
+   };
+
+   const userProps = {
+      users,
+      handleEditUser,
+      setDel,
+      setToDel,
+   };
+
+   const delModalProps = {
+      setDel,
+      toDel,
+      setToDel,
+      handleDelete,
+   };
+
    return (
       <div className="container mx-auto md:w-4/6 min-h-screen min-w-full p-12 relative flex flex-col items-center">
-         {del ? (
-            <DeleteModal
-               setDel={setDel}
-               toDel={toDel}
-               setToDel={setToDel}
-               handleDelete={handleDelete}
-            />
-         ) : null}
-
-         <Input
-            setUsers={setUsers}
-            editing={editing}
-            setEditing={setEditing}
-            editingUser={editingUser}
-            setEditingUser={setEditingUser}
-         />
+         {del ? <DeleteModal {...delModalProps} /> : null}
+         <Input {...inputProps} />
          <h1 className="text-center mb-4 font-semibold text-2xl">
             Users From Server
          </h1>
-         <Users
-            users={users}
-            setUsers={setUsers}
-            handleEditUser={handleEditUser}
-            setDel={setDel}
-            setToDel={setToDel}
-         />
-         {/* <UsersTowns
-            handleTowns={handleTowns}
-            showTowns={showTowns}
-            towns={towns}
-         /> */}
+         <Users {...userProps} />
       </div>
    );
 }
 
 export default App;
+
+// const USERS_TOWNS = "http://localhost:3000/api/users/town";
+{
+   /* <UsersTowns
+            handleTowns={handleTowns}
+            showTowns={showTowns}
+            towns={towns}
+         /> */
+}
 
 // shows users towns on click
 // const [showTowns, setShowTowns] = useState(false);

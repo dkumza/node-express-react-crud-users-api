@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { useState } from "react";
-import { DeleteModal } from "./DeleteModal";
 
 const MAIN_URL = "http://localhost:3000/api";
 
@@ -11,6 +10,7 @@ export const Input = ({
    setEditing,
    editingUser,
    setEditingUser,
+   originalName,
 }) => {
    // new user states
    const [newName, setNewName] = useState("");
@@ -44,7 +44,6 @@ export const Input = ({
             console.warn("Error while creating new User:", error);
             const { status, data } = error.response;
             if (status === 400) {
-               console.log("error data:", data);
                setErrOne(data.msg_1);
                setErrTwo(data.msg_2);
             }
@@ -64,6 +63,7 @@ export const Input = ({
          .then((res) => {
             if (res.status === 200) {
                setUsers(res.data.users);
+               console.log(editUser);
                setEditingUser(null);
                setEditing(false);
                setErrOne(null);
@@ -74,7 +74,6 @@ export const Input = ({
             console.warn("Error while editing User:", error);
             const { status, data } = error.response;
             if (status === 400) {
-               console.log("error data:", data);
                setErrOne(data.msg_1);
                setErrTwo(data.msg_2);
             }
@@ -93,13 +92,14 @@ export const Input = ({
    return (
       <div className="mb-6 w-full">
          <h1 className="text-center mb-2 font-semibold text-2xl">
-            {editing ? `Editing - ${editingUser.name}` : " Enter new User"}
+            {/* shows original name as static editing user name value */}
+            {editing ? `Editing - ${originalName}` : " Enter new User"}
          </h1>
          <form
             className="max-w-sm mx-auto text-gray-900"
             onSubmit={handleSubmit}
          >
-            <div className="mb-2">
+            <div className="mb-4">
                <label
                   htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900"
